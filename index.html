@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Torven Brauzer — Windows uchun tez brauzer</title>
+    <meta
+      name="description"
+      content="Torven Brauzer: Chromium asosidagi tez va toza brauzer. Windows 10/11 uchun bepul yuklab oling."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #0e1015;
+        --panel: #171a22;
+        --panel-2: #1f232d;
+        --line: #2a2f3b;
+        --text: #e9edf5;
+        --muted: #98a1b2;
+        --accent: #7490ff;
+        --accent-2: #5b73ec;
+        --gold: #ffc857;
+        --font: "Onest", "Segoe UI", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--ink);
+        color: var(--text);
+        font-family: var(--font);
+        font-size: 17px;
+        line-height: 1.6;
+        background-image: radial-gradient(
+          900px 480px at 82% -80px,
+          #1b2342 0%,
+          transparent 70%
+        );
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 6px;
+      }
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* header */
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 0;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        font-size: 19px;
+        text-decoration: none;
+      }
+      .brand svg {
+        width: 34px;
+        height: 34px;
+        display: block;
+      }
+      header nav a {
+        color: var(--muted);
+        text-decoration: none;
+        margin-left: 26px;
+        font-size: 15px;
+      }
+      header nav a:hover {
+        color: var(--text);
+      }
+
+      /* hero */
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+        gap: 56px;
+        align-items: center;
+        padding: 56px 0 88px;
+      }
+      h1 {
+        font-size: clamp(38px, 5.4vw, 66px);
+        line-height: 1.04;
+        letter-spacing: -0.02em;
+        font-weight: 800;
+        margin: 0 0 22px;
+      }
+      .lead {
+        color: var(--muted);
+        font-size: 19px;
+        max-width: 30em;
+        margin: 0 0 34px;
+      }
+      .cta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 18px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--accent);
+        color: #0b0f22;
+        font-weight: 700;
+        font-size: 18px;
+        padding: 16px 28px;
+        border-radius: 14px;
+        text-decoration: none;
+        transition: background 0.15s;
+      }
+      .btn:hover {
+        background: #93a8ff;
+      }
+      .btn svg {
+        width: 22px;
+        height: 22px;
+      }
+      .btn.alt {
+        background: var(--panel-2);
+        color: var(--text);
+        border: 1px solid var(--line);
+      }
+      .btn.alt:hover {
+        background: #272c38;
+      }
+      .fine {
+        color: var(--muted);
+        font-size: 14.5px;
+        margin-top: 16px;
+      }
+
+      /* browser mockup */
+      .mock {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 40px 90px rgba(0, 0, 0, 0.55);
+      }
+      .mock .tabs {
+        display: flex;
+        gap: 4px;
+        padding: 10px 12px 0;
+        background: #0c0e13;
+      }
+      .mock .tab {
+        padding: 9px 16px;
+        font-size: 13px;
+        color: #7c8596;
+        border-radius: 10px 10px 0 0;
+        white-space: nowrap;
+      }
+      .mock .tab.on {
+        background: var(--panel);
+        color: #fff;
+      }
+      .mock .bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        background: var(--panel);
+        border-bottom: 1px solid var(--line);
+      }
+      .mock .dot {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--panel-2);
+      }
+      .mock .url {
+        flex: 1;
+        background: #0f1218;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 7px 16px;
+        font-size: 13px;
+        color: #7c8596;
+      }
+      .mock .page {
+        height: 270px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        background: radial-gradient(500px 220px at 50% 0, #1e2536, #14161b 70%);
+      }
+      .mock .page b {
+        font-size: 30px;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+      }
+      .mock .page b i {
+        font-style: normal;
+        font-weight: 800;
+        color: var(--accent);
+      }
+      .mock .search {
+        width: 62%;
+        height: 40px;
+        border-radius: 22px;
+        background: #1b1f27;
+        border: 1px solid #2b303b;
+      }
+      .mock .tiles {
+        display: flex;
+        gap: 14px;
+      }
+      .mock .tiles span {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+      }
+
+      /* sections */
+      section {
+        padding: 72px 0;
+        border-top: 1px solid var(--line);
+      }
+      h2 {
+        font-size: clamp(28px, 3.6vw, 40px);
+        line-height: 1.15;
+        letter-spacing: -0.015em;
+        margin: 0 0 14px;
+        font-weight: 700;
+      }
+      .sub {
+        color: var(--muted);
+        max-width: 34em;
+        margin: 0 0 40px;
+      }
+
+      /* shortcuts */
+      .keys {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 56px;
+      }
+      .keys div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        padding: 13px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .keys span {
+        color: var(--muted);
+      }
+      kbd {
+        font-family: var(--font);
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--text);
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        border-bottom-width: 3px;
+        border-radius: 7px;
+        padding: 2px 9px;
+        margin-left: 5px;
+        white-space: nowrap;
+      }
+      kbd:first-child {
+        margin-left: 0;
+      }
+
+      /* steps */
+      .split {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 56px;
+      }
+      ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        counter-reset: s;
+      }
+      ol li {
+        counter-increment: s;
+        position: relative;
+        padding: 0 0 26px 54px;
+      }
+      ol li::before {
+        content: counter(s);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: var(--panel-2);
+        border: 1px solid var(--line);
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+        color: var(--accent);
+      }
+      ol li strong {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 2px;
+      }
+      ol li p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+      }
+      .note {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--gold);
+        border-radius: 10px;
+        padding: 16px 20px;
+        color: var(--muted);
+        font-size: 15.5px;
+        margin-top: 6px;
+      }
+      .note b {
+        color: var(--text);
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 30px 0 50px;
+        color: var(--muted);
+        font-size: 14.5px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      footer a {
+        color: var(--text);
+      }
+
+      @media (max-width: 860px) {
+        .hero {
+          grid-template-columns: 1fr;
+          gap: 40px;
+          padding: 30px 0 60px;
+        }
+        .keys {
+          grid-template-columns: 1fr;
+        }
+        .split {
+          grid-template-columns: 1fr;
+          gap: 44px;
+        }
+        header nav a:not(.keep) {
+          display: none;
+        }
+        .mock .page {
+          height: 210px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a class="brand" href="#">
+          <svg viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#7c9bff" />
+                <stop offset="1" stop-color="#4b63e6" />
+              </linearGradient>
+            </defs>
+            <rect width="64" height="64" rx="16" fill="url(#g)" />
+            <path
+              d="M21 21h22M32 21v24"
+              stroke="#fff"
+              stroke-width="5"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Torven Brauzer
+        </a>
+        <nav>
+          <a href="#qisqartmalar">Qisqartmalar</a>
+          <a href="#ai">AI yordamchi</a>
+          <a class="keep" href="#yuklash">Yuklab olish</a>
+        </nav>
+      </header>
+
+      <main>
+        <div class="hero">
+          <div>
+            <h1>Tez ochiladi. Toza ko'rinadi.</h1>
+            <p class="lead">
+              Torven Brauzer Chromium asosida ishlaydi: sahifalar tez yuklanadi,
+              interfeys oddiy, tanish klaviatura qisqartmalari joyida.
+            </p>
+            <div class="cta" id="yuklash">
+              <a class="btn" id="dl" href="Torvenbrauzer_Setup.exe" download>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3v12M6.5 10.5L12 16l5.5-5.5M4 20h16" />
+                </svg>
+                Windows uchun yuklab olish
+              </a>
+            </div>
+            <p class="fine">
+              Windows 10 va 11, 64-bit. Bepul. Bitta fayl: yuklaysiz,
+              o'rnatasiz, Start menyudan ochasiz.
+            </p>
+          </div>
+
+          <div class="mock" aria-hidden="true">
+            <div class="tabs">
+              <div class="tab on">Yangi tab</div>
+              <div class="tab">YouTube</div>
+              <div class="tab">GitHub</div>
+            </div>
+            <div class="bar">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="url">Qidiring yoki manzil kiriting...</div>
+              <div class="dot"></div>
+            </div>
+            <div class="page">
+              <b>Torven <i>Brauzer</i></b>
+              <div class="search"></div>
+              <div class="tiles">
+                <span style="background: #4285f4"></span
+                ><span style="background: #e53935"></span
+                ><span style="background: #2aa3e0"></span
+                ><span style="background: #3a3f4b"></span
+                ><span style="background: #5b6270"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <section id="qisqartmalar">
+          <h2>Qo'lingiz o'rganib qolgan tugmalar</h2>
+          <p class="sub">
+            Boshqa brauzerlardagi qisqartmalarning hammasi shu yerda ham
+            ishlaydi.
+          </p>
+          <div class="keys">
+            <div>
+              <span>Yangi tab</span><b><kbd>Ctrl</kbd><kbd>T</kbd></b>
+            </div>
+            <div>
+              <span>Tabni yopish</span><b><kbd>Ctrl</kbd><kbd>W</kbd></b>
+            </div>
+            <div>
+              <span>Yopilgan tabni qaytarish</span
+              ><b><kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>T</kbd></b>
+            </div>
+            <div>
+              <span>Yangilash</span><b><kbd>Ctrl</kbd><kbd>R</kbd></b>
+            </div>
+            <div>
+              <span>Manzil panelini tanlash</span
+              ><b><kbd>Ctrl</kbd><kbd>L</kbd></b>
+            </div>
+            <div>
+              <span>Keyingi tab</span><b><kbd>Ctrl</kbd><kbd>Tab</kbd></b>
+            </div>
+            <div>
+              <span>Sahifadan qidirish</span><b><kbd>Ctrl</kbd><kbd>F</kbd></b>
+            </div>
+            <div>
+              <span>Xatcho'p qo'shish</span><b><kbd>Ctrl</kbd><kbd>D</kbd></b>
+            </div>
+            <div>
+              <span>Orqaga va oldinga</span
+              ><b><kbd>Alt</kbd><kbd>←</kbd><kbd>→</kbd></b>
+            </div>
+            <div>
+              <span>Kattalashtirish</span
+              ><b><kbd>Ctrl</kbd><kbd>+</kbd><kbd>−</kbd></b>
+            </div>
+            <div>
+              <span>Ma'lum tabga o'tish</span
+              ><b><kbd>Ctrl</kbd><kbd>1–9</kbd></b>
+            </div>
+            <div>
+              <span>To'liq ekran</span><b><kbd>F11</kbd></b>
+            </div>
+          </div>
+        </section>
+
+        <section id="ai">
+          <div class="split">
+            <div>
+              <h2>AI yordamchi, savollaringiz uchun</h2>
+              <p class="sub" style="margin-bottom: 28px">
+                Brauzer ichidagi AI panel pullik xizmat. API kalit kerak emas:
+                to'lov qilasiz va faollashtirish kodini olasiz.
+              </p>
+              <a
+                class="btn alt"
+                href="https://t.me/torvensnow7"
+                target="_blank"
+                rel="noopener"
+                >Telegramda yozish: t.me/torvennsow7</a
+              >
+            </div>
+            <ol>
+              <li>
+                <strong>Telegramda yozing</strong>
+                <p>To'lov uchun t.me/torvennsow7 ga murojaat qiling.</p>
+              </li>
+              <li>
+                <strong>Kodni oling</strong>
+                <p>To'lovdan keyin sizga shaxsiy litsenziya kodi yuboriladi.</p>
+              </li>
+              <li>
+                <strong>Brauzerda kiriting</strong>
+                <p>
+                  AI tugmasini bosing yoki Ctrl+Shift+A, so'ng kodni kiriting.
+                  AI darrov ochiladi.
+                </p>
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        <section>
+          <div class="split">
+            <div>
+              <h2>O'rnatish uch qadamda</h2>
+              <p class="sub">
+                O'rnatilgach Torven Brauzer oddiy ilova bo'ladi: Start menyuda
+                turadi va ilovalar ro'yxatidan o'chirish mumkin.
+              </p>
+              <div class="note">
+                <b>Windows "Noma'lum nashriyotchi" desa:</b> "Qo'shimcha
+                ma'lumot" tugmasini, so'ng "Baribir ishga tushirish" ni bosing.
+                Bu yangi dasturlarda odatiy holat.
+              </div>
+            </div>
+            <ol>
+              <li>
+                <strong>Faylni yuklab oling</strong>
+                <p>Yuqoridagi "Windows uchun yuklab olish" tugmasini bosing.</p>
+              </li>
+              <li>
+                <strong>O'rnatuvchini ishga tushiring</strong>
+                <p>
+                  Torvenbrauzer_Setup.exe ni oching va "Next" tugmasini bosib
+                  davom eting.
+                </p>
+              </li>
+              <li>
+                <strong>Start menyudan oching</strong>
+                <p>Windows tugmasini bosing va "Torvenbrauzer" deb yozing.</p>
+              </li>
+            </ol>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>Torven Brauzer</span>
+        <span
+          >Savol va to'lov uchun:
+          <a href="https://t.me/torvensnow7" target="_blank" rel="noopener"
+            >t.me/torvennsow7</a
+          ></span
+        >
+      </footer>
+    </div>
+    <script>
+      // YUKLAB OLISH HAVOLASI. Faylni sahifa bilan bir papkaga qo'ysangiz, o'zgartirmang.
+      // GitHub Releases ishlatsangiz, shu qatorni almashtiring, masalan:
+      // "https://github.com/ISMINGIZ/torven-brauzer/releases/latest/download/Torvenbrauzer_Setup.exe"
+      var DOWNLOAD_URL = "Torvenbrauzer.exe";
+      document.getElementById("dl").setAttribute("href", DOWNLOAD_URL);
+    </script>
+  </body>
+</html>
